@@ -67,3 +67,4 @@ affichage(articlesLenouv)
 
 print("ARTICLES DE HAITILIBRE")
 affichage(articlesHaiti)
+
