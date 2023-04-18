@@ -56,16 +56,11 @@ if __name__ == '__main__':
     main()
     from datetime import datetime
     date=datetime.today().strftime('%Y-%m-%d')
-    pprint({date:output})
-example={
-        "id": 2,
-        "date": "2023-04-17",
-        "rutshelle": 13,
-        "darlinedesca": 24,
-        "vanessa_desireofficiel": 34,
-        "fatiful": 42,
-        "aniealerte": 321,
-        "tafaayiti": 234,
-        "bedjineofficiel": 43,
-        "blondedyferdinandshop": 321
-    }
+    output['date']=date
+    pprint(output)
+
+    headers2 = {
+    "Content-Type": "application/json"
+}
+    response=requests.post('https://isaijeanmary.pythonanywhere.com/stats/',data=json.dumps(output),headers=headers2)
+    print(response.text)
