@@ -1,66 +1,93 @@
-import requests, json, random,time
-from pprint import pprint
-usernames = ['rutshelle','darlinedesca','vanessa_desireofficiel','fatiful','aniealerte','tafaayiti','bedjineofficiel','blondedyferdinandshop']
-proxy = "http://username:password@proxy:port"
-output = {}
-proxy_url = "https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/socks4.txt"
-content = requests.get(proxy_url)
-proxyList = content.text.strip().split('\n')
-proxyList = list(map(lambda x:x.strip(), proxyList))
-def get_headers(username):
-    headers = {
-        "authority": "www.instagram.com",
-        "method": "GET",
-        "path": "/{0}/".format(username),
-        "scheme": "https",
-        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "accept-encoding" : "gzip, deflate, br",
-        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-        "upgrade-insecure-requests": "1",
-        "Connection": "close",
-        "user-agent" : random.choice([
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.80 Safari/537.36", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
-              "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36",
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36",
-              "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36"
-            ])
-    }
-    return headers
-def parse_data(username, user_data):
-    output[username] =  user_data['edge_followed_by']['count']
-      
-    
-    
-def main():
-    for username in usernames:
-        url = f"https://instagram.com/{username}/?__a=1&__d=dis"
-        random_proxy = random.choice(proxyList)    
-        response = requests.get(url, headers=get_headers(username), proxies = {'http': random_proxy})
-        if response.status_code == 200:
-            try:
-                resp_json = json.loads(response.text)
-            except:
-                print ("Failed. Response not JSON")
-                continue
-            else:
-                user_data = resp_json['graphql']['user']
-                parse_data(username, user_data)
-                print(f'Successfully get {username}')
-        elif response.status_code == 301 or response.status_code == 302:
-            print ("Failed. Redirected to login")
-        else:
-            print("Request failed. Status: " + str(response.status_code))
-    time.sleep(10)
-    
-if __name__ == '__main__':
-    main()
-    from datetime import datetime
-    date=datetime.today().strftime('%Y-%m-%d')
-    output['date']=date
-    pprint(output)
+import requests
+import random
+import re
+import json
+import datetime
+from time import strftime
 
-    headers2 = {
+# user list
+userList=['rutshelle','darlinedesca','vanessa_desireofficiel','fatiful','aniealerte','tafaayiti','bedjineofficiel','blondedyferdinandshop']
+
+# my target(wich is the API for loading the data)
+target="https://www.instagram.com/"
+
+
+# get a list of working proxies
+proxy_url="https://raw.githubusercontent.com/TheSpeedx/PROXY-List/master/socks4.txt"
+
+
+# get the proxy content as string
+res=requests.get(proxy_url)
+
+# remove spaces around and split it by breakline
+proxyLIst= res.text.strip().split("\n")
+
+# initialise the list we need
+date=datetime.datetime.now()
+user=''
+followers=''
+
+diction={'date':date.strftime('%Y-%m-%d')}
+
+
+# scrapping for every user
+for us in userList:
+    # getting the instagram's header to simulate a navigator
+    header={
+        'authority':'ww.instagram.com',
+        'method': 'GET',
+        'path': f'/api/v1/users/web_profile_info/?username={us}',
+        'scheme': 'https',
+        'Accept': '*/*',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en-JM;q=0.7,en;q=0.6',
+        'cookie':'dpr=2.0000000596046448; ig_nrcb=1; mid=ZEFfsgAAAAFC5L7zPAyU17W_mP6K; ig_did=BA490F07-772A-4B71-8B88-C513244A6D99; csrftoken=kXzxlIceC599RNgnmTacI07sdlUaC03r; ds_user_id=59306155021; datr=smxBZK_VWVERKwd44aU8avvw; sessionid=59306155021%3AilVrA8tvqMkJ6K%3A24%3AAYeCegQacxXUIIyhDharUiHqmWt35wtW-PAw2uUB6g; rur=\"VLL\05459306155021\0541713551975:01f7585fb95ade5f70332f109b8cd621c4f7e1e54efe3b99b32c90038796d4a9c124c48a\"',
+        'referer': f'https://www.instagram.com/{us}/?hl=fr',
+        'sec-ch-prefers-color-scheme': 'light',
+        'sec-ch-ua':'"Google Chrome";v="111", "Not(A:Brand";v="8", "Chromium";v="111"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': "\"Windows\"",
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+        'viewport-width': '982',
+        'x-asbd-id': '198387',
+        'x-ig-app-id': '936619743392459',
+        'x-requested-with': 'XMLHttpRequest'
+    }
+
+
+
+
+    tries=5
+    while tries>0:
+        # find a random proxy
+        proxy=random.choice(proxyLIst)
+
+# test if it works
+        try:
+            resp=requests.get(target+us+'/?__a=1&__d=dis',headers=header,proxies={"http":proxy})
+            if resp.status_code == 200:
+                print("Proxy found:",proxy)
+                print(resp.url)
+                contenu=resp.json()
+
+                followers=contenu['graphql']['user']['edge_followed_by']['count']
+                user=contenu['graphql']['user']['full_name']
+                break
+        except Exception as error:
+            print("Error: **",error,"**\n")
+
+        tries -=1
+        # adding the data we collect to the list
+    diction[us]=followers
+
+
+# print the result
+print(diction)
+headers2 = {
     "Content-Type": "application/json"
 }
-    response=requests.post('https://isaijeanmary.pythonanywhere.com/stats/',data=json.dumps(output),headers=headers2)
-    print(response.text)
+response=requests.post('https://isaijeanmary.pythonanywhere.com/stats/',data=json.dumps(diction),headers=headers2)
+print(response.text)
