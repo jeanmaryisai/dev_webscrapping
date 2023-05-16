@@ -21,7 +21,7 @@ class _UpdatePageState extends State<UpdatePage> {
   void initState() {
     // TODO: implement initState
     controller.text = widget.body;
-    super.initState();
+    super.initState(); 
   }
 
   @override
