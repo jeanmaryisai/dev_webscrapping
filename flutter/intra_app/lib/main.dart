@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:intra_app/note.dart';
 import 'package:intra_app/update.dart';
+import 'package:intra_app/utils.dart';
 
 import 'cards.dart';
 import 'create.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Isai Todo_app',
+      title: 'Isai Shop',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
@@ -47,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    // _retrieveNotes();
+    _retrieveData(); 
     super.initState();
   }
 
@@ -59,12 +60,48 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // _retrieveNotes() async {
-  //   notes = [];
-  //   List response = json.decode((await client.get(getNotesUrl)).body);
-  //   response.forEach((element) {
-  //     notes.add(Note.fromMap(element));
-  //   });
+  void _removeCartItem(String name) {
+    removeCartItemByName(name);
+    setState(() {});
+  }
+
+  void _removeWishItem(String name) {
+    for (int i = 0; i < wishItem.length; i++) {
+      if (wishItem[i].name == name) {
+        cartItems.add(wishItem[i]);
+        wishItem.removeAt(i);
+        break;
+      }
+    }
+
+    setState(() {});
+  }
+
+  void _addToCart(String name) {
+    addToCart(name);
+    setState(() {});
+  }
+
+  void _addToWish(String name) {
+    addToWish(name);
+    setState(() {});
+  }
+
+  _retrieveData() async {
+    notes = [];
+    List response = json.decode((await client.get(Uri.parse(
+            'https://api.escuelajs.co/api/v1/products?offset=0&limit=10')))
+        .body);
+    response.forEach((item) {
+      products.add(Product(
+        name: item['title'],
+        description: item['description'],
+        price: item['price'].toDouble(),
+        quantity: 0, // Par défaut, le produit a une quantité de 1
+        image: item['images'][0],
+      ));
+    });
+  }
 
   //   setState(() {});
   // }
@@ -76,10 +113,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     List<Widget> pages = [
-      HomePage(),
-      CartPage(),
-      Wishlist(),
+      HomePage(add: _addToCart, addWish: _addToWish),
+      CartPage(deleteCartItem: _removeCartItem),
+      Wishlist(deleteWishItem: _removeWishItem),
     ];
     return Scaffold(
       appBar: AppBar(
@@ -108,7 +146,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HelloWorldPage(),
+                    builder: (context) => HelloWorldPage(
+                      add: _addToCart,
+                      addWish: _addToWish,
+                    ),
                   ),
                 );
               },
@@ -117,7 +158,10 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(Icons.login_outlined),
               title: Text('Dekonekte'),
               onTap: () {
-                // Action lorsque l'élément est cliqué
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
               },
             ),
           ],

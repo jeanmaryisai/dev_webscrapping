@@ -87,14 +87,18 @@ class ProductCard extends StatelessWidget {
   final String productImage;
   final String description;
   final VoidCallback onTap;
+  final Function(String) addProduct;
+  final Function(String) addWishProduct;
   // final VoidCallback onAddToCart;
   // final VoidCallback onAddToFavorites;
 
-  ProductCard({
+  ProductCard({super.key, 
     required this.productName,
     required this.productImage,
     this.description = 'Ceci est une description par défaut',
     required this.onTap,
+    required this.addProduct,
+    required this.addWishProduct,
     // required this.onAddToCart,
     // required this.onAddToFavorites,
   });
@@ -103,70 +107,76 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(8),
-                ),
-                child: Image.asset(
-                  productImage,
-                  fit: BoxFit.cover,
+      child: SizedBox(
+        height: 400,
+        width: 400,
+      
+        // child: Card(
+          
+        //   elevation: 4,
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(8),
+        //   ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(8),
+                  ),
+                  child: Image.asset(
+                    productImage,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    productName,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      productName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: (){showSnackBar(context);},
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            Colors.orange,
+                    SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: (){showSnackBar(context);},
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.orange,
+                            ),
+                          ),
+                          child: Text('Ajouter au panier'),
+                        ),
+                        SizedBox(width: 8),
+                        IconButton(
+                          onPressed: (){addWishProduct(productName);},
+                          icon: Icon(
+                            Icons.favorite,
+                            color: Colors.red,
                           ),
                         ),
-                        child: Text('Ajouter au panier'),
-                      ),
-                      SizedBox(width: 8),
-                      IconButton(
-                        onPressed: (){},
-                        icon: Icon(
-                          Icons.favorite,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      // ),\
     );
   }
 }

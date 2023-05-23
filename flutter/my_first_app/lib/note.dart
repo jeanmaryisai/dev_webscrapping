@@ -26,7 +26,7 @@ class Note {
     };
   }
 
-  factory Note.fromMap(Map<String, dynamic> map) {
+  factory Note.5fromMap(Map<String, dynamic> map) {
     return Note(
       id: map['id'] as int,
       body: map['body'] as String,
@@ -50,5 +50,5 @@ class Note {
   }
 
   @override
-  int get hashCode => id.hashCode ^ body.hashCode;
+  int get hashCode => id.hashCode ^ body.hashCode;                                                                    
 }
