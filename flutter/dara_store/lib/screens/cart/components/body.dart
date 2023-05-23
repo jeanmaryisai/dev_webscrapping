@@ -4,6 +4,7 @@ import 'package:dara_store/models/Cart.dart';
 
 import '../../../repo.dart';
 import '../../../size_config.dart';
+import '../../../utils.dart';
 import 'cart_card.dart';
 
 class Body extends StatefulWidget {
@@ -26,7 +27,7 @@ class _BodyState extends State<Body> {
             direction: DismissDirection.endToStart,
             onDismissed: (direction) {
               setState(() {
-                demoCarts.removeAt(index);
+                removeFromCart(demoCarts[index].product);
               });
             },
             background: Container(

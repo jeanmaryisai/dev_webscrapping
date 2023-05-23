@@ -1,6 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
+import '../../../categories/categories_screen.dart';
+import '../../../models/category.dart';
+import '../../../repo.dart';
 import '../../../size_config.dart';
+import '../../products/products_screen.dart';
 import 'section_title.dart';
 
 class SpecialOffers extends StatelessWidget {
@@ -17,7 +22,10 @@ class SpecialOffers extends StatelessWidget {
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(
             title: "Kategori ",
-            press: () {},
+            press: () {
+              Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => CategoriesScreen()));
+            },
           ),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
@@ -25,18 +33,10 @@ class SpecialOffers extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              SpecialOfferCard(
-                image: "assets/images/Image Banner 2.png",
-                category: "Smartphone",
-                numOfBrands: 18,
-                press: () {},
-              ),
-              SpecialOfferCard(
-                image: "assets/images/Image Banner 3.png",
-                category: "Fashion",
-                numOfBrands: 24,
-                press: () {},
-              ),
+              ...List.generate(
+                  4,
+                  (index) => SpecialOfferCard(
+                      category: demoCategories.elementAt(index))),
               SizedBox(width: getProportionateScreenWidth(20)),
             ],
           ),
@@ -47,24 +47,19 @@ class SpecialOffers extends StatelessWidget {
 }
 
 class SpecialOfferCard extends StatelessWidget {
-  const SpecialOfferCard({
-    Key? key,
-    required this.category,
-    required this.image,
-    required this.numOfBrands,
-    required this.press,
-  }) : super(key: key);
-
-  final String category, image;
-  final int numOfBrands;
-  final GestureTapCallback press;
+  SpecialOfferCard({Key? key, required this.category}) : super(key: key);
+  final Category category;
 
   @override
   Widget build(BuildContext context) {
+    final String categoryString = category.category;
     return Padding(
       padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
       child: GestureDetector(
-        onTap: press,
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ProductsScreen(filter:category.category)));
+        },
         child: SizedBox(
           width: getProportionateScreenWidth(242),
           height: getProportionateScreenWidth(100),
@@ -72,8 +67,8 @@ class SpecialOfferCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               children: [
-                Image.asset(
-                  image,
+                Image.network(
+                  category.image,
                   fit: BoxFit.cover,
                 ),
                 Container(
@@ -98,13 +93,13 @@ class SpecialOfferCard extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                       children: [
                         TextSpan(
-                          text: "$category\n",
+                          text: "$categoryString\n",
                           style: TextStyle(
                             fontSize: getProportionateScreenWidth(18),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextSpan(text: "$numOfBrands Brands")
+                        TextSpan(text: "20 Brands")
                       ],
                     ),
                   ),

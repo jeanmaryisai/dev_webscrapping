@@ -1,4 +1,8 @@
+import 'package:dara_store/screens/home/components/special_offers.dart';
 import 'package:flutter/material.dart';
+
+import '../../repo.dart';
+import '../../size_config.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -6,14 +10,18 @@ class Body extends StatelessWidget {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.75,
+        childAspectRatio: 1.5,
       ),
       padding: EdgeInsets.all(8),
-      itemCount: demoProducts.length,
+      itemCount: demoCategories.length,
       itemBuilder: (context, index) {
-        final product = demoProducts[index];
 
-        return ProductCard(product: demoProducts[index], fav: () {});
+        return Column(
+          children: [
+            SpecialOfferCard(category: demoCategories[index]),
+            SizedBox(height: SizeConfig.screenHeight * 0.04),
+          ],
+        );
       },
     );
   }

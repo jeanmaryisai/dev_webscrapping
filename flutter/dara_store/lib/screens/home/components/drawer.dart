@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
+import '../../../repo.dart';
 import '../../products/products_screen.dart';
 import '../../sign_in/sign_in_screen.dart';
 
@@ -17,10 +18,10 @@ class MyDrawer extends StatelessWidget {
           decoration: BoxDecoration(
             color: kPrimaryColor,
           ),
-            accountName: Text('John Doe'),
-            accountEmail: Text('johndoe@example.com'),
+            accountName: Text(currentUser.name),
+            accountEmail: Text(currentUser.username),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/Profile Image.png'),
+              backgroundImage: NetworkImage(currentUser.avatar),
             ),
           ),
           ListTile(

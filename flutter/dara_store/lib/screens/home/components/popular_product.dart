@@ -4,6 +4,7 @@ import 'package:dara_store/models/Product.dart';
 
 import '../../../repo.dart';
 import '../../../size_config.dart';
+import '../../products/products_screen.dart';
 import 'section_title.dart';
 
 class PopularProducts extends StatelessWidget {
@@ -14,7 +15,7 @@ class PopularProducts extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(title: "Popular Products", press: () {}),
+          child: SectionTitle(title: "Popular Products", press: () {Navigator.pushNamed(context, ProductsScreen.routeName);}),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(

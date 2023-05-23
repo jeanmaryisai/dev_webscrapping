@@ -4,6 +4,7 @@ import '../components/coustom_bottom_nav_bar.dart';
 import '../enums.dart';
 import '../screens/home/components/drawer.dart';
 import '../size_config.dart';
+import 'components/body.dart';
 
 class CategoriesScreen extends StatelessWidget {
   static String routeName = "/categories";
@@ -17,7 +18,7 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Pwodwi",
+          "Categories",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Muli',),
         ),
       ),

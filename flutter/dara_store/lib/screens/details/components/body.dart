@@ -3,6 +3,7 @@ import 'package:dara_store/components/default_button.dart';
 import 'package:dara_store/models/Product.dart';
 import 'package:dara_store/size_config.dart';
 
+import '../../../utils.dart';
 import 'color_dots.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
@@ -42,7 +43,9 @@ class Body extends StatelessWidget {
                         ),
                         child: DefaultButton(
                           text: "Add To Cart",
-                          press: () {},
+                          press: () {
+                            addCart(product);
+                          },
                         ),
                       ),
                     ),

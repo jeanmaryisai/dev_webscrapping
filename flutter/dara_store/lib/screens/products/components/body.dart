@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../components/product_card.dart';
+import '../../../models/Product.dart';
 import '../../../repo.dart';
+import '../../../size_config.dart';
 
 class Body extends StatelessWidget {
+  final List<Product> list;
+
+  const Body({super.key, required this.list});
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -11,12 +16,17 @@ class Body extends StatelessWidget {
         crossAxisCount: 2,
         childAspectRatio: 0.75,
       ),
-      padding: EdgeInsets.all(8),
-      itemCount: demoProducts.length,
+      padding: EdgeInsets.all(0),
+      itemCount: list.length,
       itemBuilder: (context, index) {
-        final product = demoProducts[index];
+        final product = list[index];
 
-        return ProductCard(product: demoProducts[index], fav: () {});
+        return Column(
+          children: [
+            ProductCard(product: list[index], fav: () {}),
+            SizedBox(height: SizeConfig.screenHeight * 0.04),
+          ],
+        );
       },
     );
   }

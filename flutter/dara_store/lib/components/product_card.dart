@@ -11,7 +11,7 @@ class ProductCard extends StatefulWidget {
   const ProductCard({
     Key? key,
     this.width = 140,
-    this.aspectRetio = 1.02,
+    this.aspectRetio = 1.05,
     required this.product,
     required this.fav,
   }) : super(key: key);
@@ -48,14 +48,15 @@ class _ProductCardState extends State<ProductCard> {
               AspectRatio(
                 aspectRatio: 1.02,
                 child: Container(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+                  padding: EdgeInsets.all(getProportionateScreenWidth(0)),
                   decoration: BoxDecoration(
                     color: kSecondaryColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Hero(
                     tag: widget.product.id.toString(),
-                    child: Image.asset(widget.product.images[0]),
+                    child: Image.network(widget.product.images[0],
+                        fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -111,7 +112,9 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                   InkWell(
                     borderRadius: BorderRadius.circular(50),
-                    onTap: () {},
+                    onTap: () {
+                      addCart(widget.product);
+                    },
                     child: Container(
                       padding: EdgeInsets.all(getProportionateScreenWidth(8)),
                       height: getProportionateScreenWidth(28),

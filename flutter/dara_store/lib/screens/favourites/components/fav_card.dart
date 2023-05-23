@@ -27,7 +27,7 @@ class FavCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset(product.images[0]),
+              child: Image.network(product.images[0]),
             ),
           ),
         ),

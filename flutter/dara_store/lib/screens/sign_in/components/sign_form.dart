@@ -7,7 +7,9 @@ import 'package:dara_store/screens/login_success/login_success_screen.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
+import '../../../repo.dart';
 import '../../../size_config.dart';
+import '../../../utils.dart';
 
 class SignForm extends StatefulWidget {
   @override
@@ -75,11 +77,19 @@ class _SignFormState extends State<SignForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
+                var isOk = false;
+                users.forEach((element) {
+                  if (email == element.username) {
+                    if (password == element.password) {
+                      isOk = true;
+                      currentUser = element;
+                    }
+                  }
+                });
                 // ajoute tout lot lojik pou authetification yo la
-                if (email != "admin") {
+                if (!isOk) {
                   addError(error: kAuthentificationError);
                 } else {
-                 
                   KeyboardUtil.hideKeyboard(context);
                   Navigator.pushNamed(context, LoginSuccessScreen.routeName);
                 }
@@ -108,10 +118,8 @@ class _SignFormState extends State<SignForm> {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
           return "";
-        } else if (value.length < 8) {
-          addError(error: kShortPassError);
-          return "";
         }
+        
         return null;
       },
       decoration: InputDecoration(

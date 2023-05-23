@@ -509,7 +509,7 @@ class ProductPage extends StatelessWidget {
               height: 300,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(product.image),
+                  image: NetworkImage(product.image),
                   fit: BoxFit.cover,
                 ),
               ),

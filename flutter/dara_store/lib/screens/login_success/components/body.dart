@@ -3,9 +3,12 @@ import 'package:dara_store/components/default_button.dart';
 import 'package:dara_store/screens/home/home_screen.dart';
 import 'package:dara_store/size_config.dart';
 
+import '../../../repo.dart';
+
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String name= currentUser.name;
     return Center(
       child: Column(
         children: [
@@ -16,7 +19,7 @@ class Body extends StatelessWidget {
           ),
           SizedBox(height: SizeConfig.screenHeight * 0.08),
           Text(
-            "Byenvini Admin",
+            "Byenvini $name",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(30),
               fontWeight: FontWeight.bold,

@@ -1,8 +1,10 @@
-
 import 'package:flutter/material.dart';
 
 import 'models/Cart.dart';
 import 'models/Product.dart';
+import 'models/category.dart';
+import 'models/user.dart';
+import 'utils.dart';
 
 List<Product> demoProducts = [
   Product(
@@ -100,7 +102,6 @@ List<Product> demoProducts = [
 const String description =
     "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";
 
-
 List<Cart> demoCarts = [
   Cart(product: demoProducts[0], numOfItem: 2),
   Cart(product: demoProducts[1], numOfItem: 1),
@@ -109,6 +110,27 @@ List<Cart> demoCarts = [
 
 List<Product> demoFav = [
   demoProducts[0],
-   demoProducts[1],
+  demoProducts[1],
   demoProducts[3],
 ];
+
+List<Category> demoCategories = [
+  Category(
+    image: "assets/images/Image Banner 2.png",
+    category: "Smartphone",
+  ),
+  Category(
+    image: "assets/images/Image Banner 3.png",
+    category: "Fashion",
+  ),
+  Category(
+    image: "assets/images/Image Banner 3.png",
+    category: "Fashion",
+  ),
+  Category(
+    image: "assets/images/Image Banner 3.png",
+    category: "Fashion",
+  )
+];
+
+User currentUser = users[0];
