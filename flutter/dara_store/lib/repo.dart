@@ -108,6 +108,21 @@ List<Cart> demoCarts = [
   Cart(product: demoProducts[3], numOfItem: 1, userId:2),
 ];
 
+
+List<Cart> demoCartsall = [
+  Cart(product: demoProducts[0], numOfItem: 2,userId:1,),
+  Cart(product: demoProducts[1], numOfItem: 1, userId:1,),
+  Cart(product: demoProducts[3], numOfItem: 1, userId:2),
+];
+
+
+
+List<Product> demoFavall = [
+  demoProducts[0],
+  demoProducts[1],
+  demoProducts[3],
+];
+
 List<Product> demoFav = [
   demoProducts[0],
   demoProducts[1],

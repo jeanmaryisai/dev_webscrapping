@@ -132,7 +132,14 @@ List<Product> getProductsByCategory(Category category) {
   return products;
 }
 
-
+void getCart() {
+  demoCarts = [];
+  demoCartsall.forEach((element) {
+    if (element.userId == currentUser.id) {
+      demoCarts.add(element);
+    }
+  });
+}
 //   Future<void> postLoginData(String email, String password) async {
 //   // The URL of the API endpoint
 //   String apiUrl = 'https://api.escuelajs.co/api/v1/auth/login';

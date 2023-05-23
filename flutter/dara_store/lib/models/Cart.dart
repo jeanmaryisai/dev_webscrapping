@@ -10,7 +10,35 @@ class Cart {
   final Product product;
   int numOfItem;
   int userId;
-
+  Product getById(int id){
+    Product product= Product(
+    id: 1,
+    images: [
+      "assets/images/ps4_console_white_1.png",
+      "assets/images/ps4_console_white_2.png",
+      "assets/images/ps4_console_white_3.png",
+      "assets/images/ps4_console_white_4.png",
+    ],
+    colors: [
+      Color(0xFFF6625E),
+      Color(0xFF836DB8),
+      Color(0xFFDECB9C),
+      Colors.white,
+    ],
+    title: "Wireless Controller for PS4™",
+    price: 64.99,
+    description: description,
+    rating: 4.8,
+    isFavorite: true,
+    isPopular: true,
+  )
+  ; demoProducts.forEach((element) {
+      if (element.id == id){
+        product= element;
+      }
+    });
+    return product;
+  }
   Cart({
     required this.product,
     required this.numOfItem,

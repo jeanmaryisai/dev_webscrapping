@@ -19,8 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     retriveData();
+    getCart();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -28,7 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           "Dara Store",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Muli',),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Muli',
+          ),
         ),
       ),
       drawer: MyDrawer(),
