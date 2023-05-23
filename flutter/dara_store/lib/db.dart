@@ -1,3 +1,4 @@
+import 'package:dara_store/repo.dart';
 import 'package:hive/hive.dart';
 
 import 'models/Cart.dart';
@@ -23,7 +24,13 @@ class CartService {
 
   Future<void> removeItemFromCart(int index) async {
     final box = Hive.box(_cartBoxName);
-    box.deleteAt(index);
+    var counter = 0;
+    for (var el in box.values.toList()) {
+      if (el[currentUser.id]['id'] == index) {
+        box.deleteAt(counter);
+        counter++;
+      }
+    }
   }
 }
 

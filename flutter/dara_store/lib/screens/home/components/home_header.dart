@@ -1,3 +1,4 @@
+import 'package:dara_store/screens/home/components/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:dara_store/screens/cart/cart_screen.dart';
 
@@ -24,9 +25,10 @@ class HomeHeader extends StatelessWidget {
             press: () => Navigator.pushNamed(context, CartScreen.routeName),
           ),
           IconBtnWithCounter(
-            svgSrc: "assets/icons/Bell.svg",
+            svgSrc: "assets/icons/Bill Icon.svg",
             numOfitem: 3,
-            press: () {},
+            press: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => CheckoutPage())),
           ),
         ],
       ),

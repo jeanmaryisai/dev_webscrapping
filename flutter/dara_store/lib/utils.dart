@@ -25,24 +25,24 @@ void addCart(Product p) {
   demoCarts.forEach((element) {
     if (element.product.id == p.id) {
       element.numOfItem++;
-      CartService().addItemToCart({currentUser.username: element});
-      CartService().addItemToCart({currentUser.username: element});
+      CartService().addItemToCart({currentUser.username: element.toMap()});
       return;
     }
   });
   demoCarts.add(Cart(product: p, numOfItem: 1, userId: currentUser.id));
   CartService().addItemToCart({
-    currentUser.username: Cart(product: p, numOfItem: 1, userId: currentUser.id)
+    currentUser.username:
+        Cart(product: p, numOfItem: 1, userId: currentUser.id).toMap()
   });
 
-  final box = Hive.box('box4');
-  print(box.values);
+  print(CartService().getCartItems);
 }
 
 void removeFromCart(Product p) {
   demoCarts.forEach((element) {
     if (element.product.id == p.id) {
       demoCarts.remove(element);
+      CartService().removeItemFromCart();
     }
   });
 }
