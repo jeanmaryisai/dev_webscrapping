@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:dara_store/models/Cart.dart';
 import 'package:dara_store/models/Product.dart';
 import 'package:dara_store/repo.dart';
 import 'package:http/http.dart';
 
+import 'db.dart';
 import 'models/category.dart';
 import 'models/user.dart';
 
@@ -23,13 +25,18 @@ void addCart(Product p) {
   demoCarts.forEach((element) {
     if (element.product.id == p.id) {
       element.numOfItem++;
+      CartService().addItemToCart({currentUser.username: element});
+      CartService().addItemToCart({currentUser.username: element});
       return;
     }
   });
-  demoCarts.add(Cart(
-    product: p,
-    numOfItem: 1,
-  ));
+  demoCarts.add(Cart(product: p, numOfItem: 1, userId: currentUser.id));
+  CartService().addItemToCart({
+    currentUser.username: Cart(product: p, numOfItem: 1, userId: currentUser.id)
+  });
+
+  final box = Hive.box('box4');
+  print(box.values);
 }
 
 void removeFromCart(Product p) {
@@ -40,7 +47,14 @@ void removeFromCart(Product p) {
   });
 }
 
-List<User> users = [User(id: -1, username: 'admin', password: 'admin',avatar:'assets/images/Profile Image.png',name:'isai'),];
+List<User> users = [
+  User(
+      id: -1,
+      username: 'admin',
+      password: 'admin',
+      avatar: 'assets/images/Profile Image.png',
+      name: 'isai'),
+];
 
 void retriveData() async {
   Client client = http.Client();
@@ -50,7 +64,11 @@ void retriveData() async {
 
   response0.forEach((item) {
     users.add(User(
-        name:item['name'],id: item['id'], username: item['email'], password: item['password'],avatar:item['avatar']));
+        name: item['name'],
+        id: item['id'],
+        username: item['email'],
+        password: item['password'],
+        avatar: item['avatar']));
     print(item);
   });
 

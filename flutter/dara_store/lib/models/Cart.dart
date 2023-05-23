@@ -9,19 +9,23 @@ import 'Product.dart';
 class Cart {
   final Product product;
   int numOfItem;
+  int userId;
 
   Cart({
     required this.product,
     required this.numOfItem,
+    required this.userId,
   });
 
   Cart copyWith({
     Product? product,
     int? numOfItem,
+    int? userId,
   }) {
     return Cart(
       product: product ?? this.product,
       numOfItem: numOfItem ?? this.numOfItem,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -29,6 +33,7 @@ class Cart {
     return <String, dynamic>{
       'product': product.toMap(),
       'numOfItem': numOfItem,
+      'userId': userId,
     };
   }
 
@@ -36,6 +41,7 @@ class Cart {
     return Cart(
       product: Product.fromMap(map['product'] as Map<String,dynamic>),
       numOfItem: map['numOfItem'] as int,
+      userId: map['userId'] as int,
     );
   }
 
@@ -44,7 +50,7 @@ class Cart {
   factory Cart.fromJson(String source) => Cart.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Cart(product: $product, numOfItem: $numOfItem)';
+  String toString() => 'Cart(product: $product, numOfItem: $numOfItem, userId: $userId)';
 
   @override
   bool operator ==(covariant Cart other) {
@@ -52,11 +58,12 @@ class Cart {
   
     return 
       other.product == product &&
-      other.numOfItem == numOfItem;
+      other.numOfItem == numOfItem &&
+      other.userId == userId;
   }
 
   @override
-  int get hashCode => product.hashCode ^ numOfItem.hashCode;
+  int get hashCode => product.hashCode ^ numOfItem.hashCode ^ userId.hashCode;
 }
 
 // Demo data for our cart

@@ -16,7 +16,7 @@ class CartService {
     for (var el in box.values.toList()) {
       if (el['userId']==userId){
        
-       cartList.add((Cart(userId:el['userId'],productId: el['productId'],price: el['price'],productName: el['productName'],paid: el['paid'],quantity: el['quantity'] )));
+   cartList.add(Cart.fromMap(el));
 
       }
     }
@@ -31,24 +31,26 @@ class CartService {
 
 class FavoriteService {
   static const String _cartBoxName = 'fav4';
-  List<FavoriteProduct> cartList=List.empty(growable: true);
+  List<Cart> cartList=List.empty(growable: true);
   Future<void> addItemToCart(Map<String, dynamic> item) async {
     final box =  Hive.box(_cartBoxName);
     box.add(item);
   }
 
-  Future<List<FavoriteProduct>> getCartItems({required int userId}) async {
+  Future<List<Cart>> getCartItems({required int userId}) async {
     final box =  Hive.box(_cartBoxName);
-    box.values.toList().forEach((el) {
+
+    for (var el in box.values.toList()) {
       if (el['userId']==userId){
-      cartList.add(FavoriteProduct(price: el['price'],productId: el['productId'],userId: el['userId'],productName: el['productName'])); 
-        }
-  });
+       
+   cartList.add(Cart.fromMap(el));
+
+      }
+    }
     return cartList;
   }
 
   Future<void> removeItemFromCart(int index) async {
     final box =  Hive.box(_cartBoxName);
     box.deleteAt(index);
-  }
 }
