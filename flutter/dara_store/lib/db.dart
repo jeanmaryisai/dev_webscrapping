@@ -26,7 +26,7 @@ class CartService {
     final box = Hive.box(_cartBoxName);
     var counter = 0;
     for (var el in box.values.toList()) {
-      if (el[currentUser.id]['id'] == index) {
+      if (el[currentUser.id]['product']['id'] == index) {
         box.deleteAt(counter);
         counter++;
       }

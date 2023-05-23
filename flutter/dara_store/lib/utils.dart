@@ -42,7 +42,7 @@ void removeFromCart(Product p) {
   demoCarts.forEach((element) {
     if (element.product.id == p.id) {
       demoCarts.remove(element);
-      CartService().removeItemFromCart();
+      CartService().removeItemFromCart(element.product.id);
     }
   });
 }
